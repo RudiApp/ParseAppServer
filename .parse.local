@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "rudiapp"
+    },
+    "rudiapp": {
+      "applicationId": "B1DS5mkrE2Q2FkGZdMTtQX3kyraTMG6RHyd2iQ8P"
+    }
+  }
+}
