@@ -25,8 +25,8 @@
 
     customer.validateCustomer = function (request, response) {
 
-        var customer = Parse.Object.extend("customer");
-        var customerQuery = new Parse.Query(customer);
+        var customerObj = Parse.Object.extend("customer");
+        var customerQuery = new Parse.Query(customerObj);
         customerQuery.equalTo("email", request.params.email);
         customerQuery.equalTo("password", md5.hex_md5(request.params.password));
 
@@ -34,7 +34,17 @@
         ({
             success: function (results) {
                 if (results != null && results.length > 0) {
-                    response.success(results[0]);
+
+                    var existingCustomer = results[0];
+                    existingCustomer.set('date_login', new Date());
+                    existingCustomer.save(null, {
+                        success: function (existingCustomer) {
+                            response.success(existingCustomer);
+                        },
+                        error: function (existingCustomer, error) {
+                            response.error(error);
+                        }
+                    });                                       
                 }
                 else {
                     response.error('Invalid Email/Password.');
