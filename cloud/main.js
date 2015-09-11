@@ -1,5 +1,8 @@
 
-var customer = require('cloud/customer/customer.js');
+var customerHelper = require('cloud/customer/customerHelper.js');
+var technicianHelper = require('cloud/technician/technicianHelper.js')
 
-Parse.Cloud.define("addCustomer", customer.addCustomer);
-Parse.Cloud.define("customerLogin", customer.validateCustomer);
+Parse.Cloud.define("addCustomer", customerHelper.addCustomer);
+Parse.Cloud.define("customerLogin", customerHelper.validateCustomer);
+Parse.Cloud.define("addTechnician", technicianHelper.addTechnician);
+Parse.Cloud.define("technicianLogin",technicianHelper.validateTechnician)

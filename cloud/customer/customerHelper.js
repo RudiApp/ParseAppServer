@@ -3,9 +3,9 @@
     var util = require('cloud/utilities/utils.js');
     var md5 = require("cloud/md5/md5.js");
 
-    var customer = {};
+    var customerHerlper = {};
   
-    customer.isCustomerExist = function (email) {
+    customerHerlper.isCustomerExist = function (email) {
         var customer = Parse.Object.extend("customer");
         var customerQuery = new Parse.Query(customer);
         customerQuery.equalTo("email", email);
@@ -23,7 +23,7 @@
          })
     };
 
-    customer.validateCustomer = function (request, response) {
+    customerHerlper.validateCustomer = function (request, response) {
 
         var customerObj = Parse.Object.extend("customer");
         var customerQuery = new Parse.Query(customerObj);
@@ -56,7 +56,7 @@
         })
     };
 
-    customer._saveCustomer = function (customer) {
+    customerHerlper._saveCustomer = function (customer) {
         var customer = util.toCustomer(customer);
         return customer.save(null, {
             success: function (customer) {
@@ -68,7 +68,7 @@
         });
     };
 
-    customer.addCustomer = function (request, response) {
+    customerHerlper.addCustomer = function (request, response) {
 
         var requiredFeilds = [request.params.first_name, request.params.last_name,
                       request.params.email, request.params.password, request.params.phone];
@@ -77,11 +77,11 @@
             response.error("Required fields are missing. Make sure you send FirstName,LastName,Email,Phone and Passoword properly.");
         }
 
-        customer.isCustomerExist(request.params.email)
+        customerHerlper.isCustomerExist(request.params.email)
             .then(function (exist) {
                 if (exist == false) {
 
-                    customer._saveCustomer(request.params)
+                    customerHerlper._saveCustomer(request.params)
                        .then(function (customer) {
                            response.success(customer);
                        }, function (error) {
@@ -95,6 +95,6 @@
             });
     };
 
-    module.exports = customer;
+    module.exports = customerHerlper;
 
 }());
