@@ -74,7 +74,7 @@
                        request.params.email, request.params.password, request.params.phone, request.params.service_industry];
 
         if (util.validate(requiredFeilds) == false) {
-            response.error("Required fields are missing. Make sure you send FirstName,LastName,Email,Passoword and Phone properly.");
+            response.error("Required fields are missing. Make sure you send FirstName,LastName,Email,Passoword,Phone and Service Industry properly.");
         }
 
         technicianHelper.isTechnicianExist(request.params.email)
