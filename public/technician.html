@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Customer Test</title>
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/parse-1.6.0.js"></script>
+    <script type="text/javascript">
+        Parse.$ = jQuery;
+        Parse.initialize('dEclP4hNcilyaK40qCnefmIFsTf1zS0uBJIrf1dX',
+            'nxPdNvheN5g8oHhANRlWSWiswRH9R7uEVPPP5Ui3');
+    </script>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+
+        h1 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        p {
+            margin: 40px 0;
+        }
+
+        em {
+            font-family: monospace;
+        }
+
+        a {
+            color: #5298fc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div style="color: white; display: none; background-color: green; padding: 20px; margin-top: 10px;" id="message"></div>
+    <fieldset>
+        <legend>Test : Add Technician</legend>
+        <div style="padding: 20px; margin: 10px;">
+
+            <table>
+                <tr>
+               <td>
+                        <input type="text" id="firstname" placeholder="First Name" value="your first name" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="lastname" placeholder="Last Name" value="your last name" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="email" placeholder="Email Address" value="youremail@email.com" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="password" placeholder="Password" value="123456" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="phone" placeholder="Phone #" value="1234567890" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="sv" placeholder="Service Industry" value="your service industry" /></td>
+                </tr>
+            </table>
+            <button id="addTechnician">Add Technician</button>
+
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Test : Technician Login</legend>
+        <div style="padding: 20px; margin: 10px;">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="customemail" placeholder="Email Address" value="youremail@email.com" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="customerpass" placeholder="Password" value="123456" /></td>
+                </tr>
+
+            </table>
+            <button id="login">Login</button>
+
+        </div>
+    </fieldset>
+    <script type="text/javascript">
+        $(function () {
+            $("#addTechnician").click(function () {
+                var self = $("#addTechnician");
+                self.attr("disabled", "disabled");
+                Parse.Cloud.run('addTechnician', {
+                    first_name: $("#firstname").val(),
+                    last_name: $("#lastname").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val(),
+                    phone: $("#phone").val(),
+                    service_industry:$('#sv').val()
+                }, {
+                    success: function (results) {
+                        self.removeAttr("disabled");
+                        $("#message").css("background-color", "green");
+                        $("#message").show();
+                        $("#message").html("Technician Added Success!");
+                    },
+                    error: function (error) {
+                        self.removeAttr("disabled");
+                        $("#message").css("background-color", "red");
+                        $("#message").show();
+                        $("#message").html(JSON.stringify(error));
+                    }
+                })
+            });
+
+            $("#login").click(function () {
+                var self = $("#login");
+                self.attr("disabled", "disabled");
+                Parse.Cloud.run('technicianLogin', {
+                    email: $("#customemail").val(),
+                    password: $("#customerpass").val()
+                }, {
+                    success: function (results) {                        
+                        self.removeAttr("disabled");
+                        $("#message").css("background-color", "green");
+                        $("#message").show();
+                        $("#message").html("Login Success!");
+                    },
+                    error: function (error) {
+                        self.removeAttr("disabled");
+                        $("#message").css("background-color", "red");
+                        $("#message").show();
+                        $("#message").html(JSON.stringify(error));
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+</html>
